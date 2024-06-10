@@ -1,0 +1,6 @@
+scripts/
+.git/
+.gitignore
+.env
+model/
+csv/

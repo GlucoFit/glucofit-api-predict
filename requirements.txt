@@ -1,0 +1,7 @@
+Flask
+numpy
+pandas
+tensorflow
+scikit-learn
+google-cloud-storage
+google-cloud-secret-manager
