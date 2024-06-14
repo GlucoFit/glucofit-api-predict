@@ -1,5 +1,6 @@
+.venv/
 venv/
-model/*.h5
+model/
 csv/
 scripts/
 .env
