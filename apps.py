@@ -7,8 +7,12 @@ from io import StringIO
 
 app = Flask(__name__)
 
+# Declare fungsi get_secret sama download_from_gcs - referensi ngambil di punya rafif
 # Google Cloud Storage credentials
 model_url = "https://storage.googleapis.com/sugar_intake_model-01/Recommended_Sugar_Intake_Model.h5"
+# Jangan lupa declare pathnya di Secret Manager
+
+# Download disini
 
 # Load the model
 def load_model_from_url(model_url):
@@ -57,6 +61,8 @@ def preprocess_input(file):
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    #disini ambil jsonnya dulu, terus data2 nya dipanggil di fungsi predictnya tadi
+    #===============bagian sini
     try:
         if 'file' not in request.files:
             return jsonify({'error': 'No file provided'}), 400
@@ -66,7 +72,7 @@ def predict():
 
         # Assuming your model expects a specific input format
         predictions = model.predict(input_data)
-
+    #=================sampe sini
         return jsonify({'predictions': predictions.tolist()})
     except ValueError as e:
         return jsonify({'error': str(e)}), 400
@@ -76,3 +82,15 @@ def predict():
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
+
+
+
+
+
+# Declare route serving (/predictRSI)
+# tf.keras.models.load_model("model passing disini")
+# apakah model udah keload success apa nda
+
+# ambil fungsi predict_sugar_intake dari zimuth
+
+# bikin logic buat nerima JSON
