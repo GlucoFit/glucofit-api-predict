@@ -3,6 +3,7 @@ import pandas as pd
 import joblib
 import requests
 import os
+from io import StringIO
 
 app = Flask(__name__)
 
@@ -33,12 +34,23 @@ model = load_model_from_url(model_url)
 
 def preprocess_input(file):
     try:
-        df = pd.read_csv(file)
+        stream = StringIO(file.stream.read().decode("UTF8"), newline=None)
+        df = pd.read_csv(stream)
+        
         # Implement any additional preprocessing if needed
-        expected_columns = ['age', 'height', 'weight', 'diabetes_history', 'diabetes_heritage']
+        expected_columns = [
+            'user_id', 'age', 'height', 'weight', 'diabetes_history', 
+            'diabetes_heritage', 'preferred_food', 'diet_labels', 
+            'recommended_sugar_intake', 'calorie_intake'
+        ]
         if not all(column in df.columns for column in expected_columns):
             raise ValueError(f"CSV file must contain columns: {expected_columns}")
-        return df
+        
+        # Assuming the model requires a subset of columns for prediction
+        model_columns = ['age', 'height', 'weight', 'diabetes_history', 'diabetes_heritage']
+        input_data = df[model_columns]
+        
+        return input_data
     except Exception as e:
         print(f"Error processing input file. Error: {e}")
         raise ValueError("Error processing input file")
