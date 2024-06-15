@@ -6,7 +6,7 @@ import os
 os.makedirs('../model', exist_ok=True)
 os.makedirs('../csv', exist_ok=True)
 # Todo remove ini bang, bad practice
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '../serviceKey.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'serviceKey.json'
 
 
 app = Flask(__name__)

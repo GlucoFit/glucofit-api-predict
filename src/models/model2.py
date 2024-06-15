@@ -1,7 +1,6 @@
 import os
 import tensorflow as tf
 from services.gcs_service import download_file_from_gcs
-from keras.applications.resnet50 import ResNet50
 from config import Config
 
 def load_model2():
@@ -11,7 +10,21 @@ def load_model2():
     
     # Check if the model file already exists locally
     if not os.path.exists(local_model_path):
+        print(f"Downloading model from GCS: {model_bucket_name}/{model_blob_name}")
         download_file_from_gcs(model_bucket_name, model_blob_name, local_model_path)
     
-    return tf.keras.models.load_model(local_model_path)
-    # return ResNet50
+    # Check if the file exists after download
+    if os.path.exists(local_model_path):
+        print(f"Model file exists: {local_model_path}")
+    else:
+        print(f"Model file does not exist: {local_model_path}")
+    
+    # Load the model
+    try:
+        model = tf.keras.models.load_model(local_model_path)
+        print("Model loaded successfully")
+        return model
+    except Exception as e:
+        print(f"Error loading model: {e}")
+        return None
+
