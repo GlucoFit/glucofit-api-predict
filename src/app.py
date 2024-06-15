@@ -1,6 +1,6 @@
 from flask import Flask
-from controllers.mrs_controller import prediction_bp
-# from controllers.ir_controller import ir_controller
+# from controllers.mrs_controller import prediction_bp
+from controllers.ir_controller import ir_controller
 import os
 
 os.makedirs('../model', exist_ok=True)
@@ -11,8 +11,8 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '../serviceKey.json'
 
 app = Flask(__name__)
 
-app.register_blueprint(prediction_bp)
-# app.register_blueprint(ir_controller)
+# app.register_blueprint(prediction_bp)
+app.register_blueprint(ir_controller)
 
 # if __name__ == '__main__':
 #     # Production
