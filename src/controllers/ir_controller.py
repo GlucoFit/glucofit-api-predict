@@ -1,9 +1,14 @@
 from flask import Blueprint, request, jsonify
 from services.ir_service import ImageRecognitionService
-from models import model2
+from models import model2  # Assuming you have a preloaded model object `model2`
 from repositories.csv_repository import load_csv
 
 ir_controller = Blueprint('ir_controller', __name__)
+
+import os
+
+# Define the path to the temp directory relative to ir_controller.py
+TEMP_DIR = os.path.join(os.path.dirname(__file__), 'temp')
 
 # Load GulaMakanan.csv for food names and sugar content
 sugar_csv_secret_name = 'SUGAR_CSV_PATH'  # Replace with your secret name
@@ -15,14 +20,12 @@ def predict_ir():
 
     image_recognition_service = ImageRecognitionService(model2, sugar_csv_secret_name)
     # Save the image to a temporary location (you may adjust this based on your application)
-    image_path = './temp/' + image_file.filename
+    image_path = os.path.join(TEMP_DIR, image_file.filename)
     image_file.save(image_path)
-
+ 
     # Perform prediction using the ImageRecognitionService
     predicted_id = image_recognition_service.predict_image(image_path)
     food_name = image_recognition_service.get_food_name_by_id(predicted_id)
-
-    # Optional: Get sugar content based on predicted_id
     sugar_content = image_recognition_service.get_sugar_content_by_id(predicted_id)
 
     # Return prediction result as JSON
@@ -32,4 +35,4 @@ def predict_ir():
     }
 
     return jsonify(result)
-    # return jsonify({"message": "success on loading"})
+
