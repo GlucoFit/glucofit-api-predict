@@ -4,3 +4,10 @@ scripts/
 .env
 model/
 csv/
+__pycache__
+src/controllers/__pycache__
+src/models/__pycache__
+src/services/__pycache__
+src/repositories/__pycache__
+src/utils/__pycache__
+.venv/

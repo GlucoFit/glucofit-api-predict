@@ -6,17 +6,16 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from flask import Flask
 # from controllers.mrs_controller import prediction_bp
 from controllers.ir_controller import ir_controller
-from google.oauth2 import service_account
 
 os.makedirs('./model', exist_ok=True)
 os.makedirs('./csv', exist_ok=True)
 # Todo remove ini bang, bad practice
 
-from google.oauth2 import service_account
-credentials = service_account.Credentials.from_service_account_file(
-    "./serviceKey.json",
-    scopes=["https://www.googleapis.com/auth/cloud-platform"]
-)
+# from google.oauth2 import service_account
+# credentials = service_account.Credentials.from_service_account_file(
+#     "./serviceKey.json",
+#     scopes=["https://www.googleapis.com/auth/cloud-platform"]
+# )
 
 app = Flask(__name__)
 

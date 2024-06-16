@@ -26,8 +26,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the application code
 COPY . /app/
 
+# Create the required directories and empty model file
+RUN mkdir -p /app/model /app/csv
+
 # Expose the port the app runs on
 EXPOSE 8080
 
 # Run the application
-CMD ["flask", "run", "--host=0.0.0.0", "--port=8080"]
+CMD ["flask", "--app", "src/app", "run", "--host=0.0.0.0", "--port=8080"]
