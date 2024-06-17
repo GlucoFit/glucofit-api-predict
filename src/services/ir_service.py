@@ -75,7 +75,7 @@ class ImageRecognitionService:
         return predicted_id
 
     def get_food_name_by_id(self, predicted_id):
-        return self.food_names[predicted_id - 1]
+        return self.food_names[predicted_id]
 
     def get_sugar_content_by_id(self, predicted_id):
-        return self.sugar_content[predicted_id - 1]
+        return self.sugar_content[predicted_id]

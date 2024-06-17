@@ -1,0 +1,152 @@
+2024-06-17 01:40:31.468274: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-06-17 01:40:31.470662: I external/local_tsl/tsl/cuda/cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+2024-06-17 01:40:31.506723: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2024-06-17 01:40:31.506761: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2024-06-17 01:40:31.507729: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-06-17 01:40:31.513379: I external/local_tsl/tsl/cuda/cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+2024-06-17 01:40:31.513578: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-06-17 01:40:32.355138: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+loading model 2
+Model file exists: ./model/model2.h5
+Model loaded successfully
+success
+ * Serving Flask app 'src/app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://10.148.0.2:5001
+Press CTRL+C to quit
+[2024-06-17 01:41:27,631] ERROR in app: Exception on /predictIR [POST]
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/home/zeonkunix/glucofit-api-predict/src/controllers/ir_controller.py", line 24, in predict_ir
+    image_file.save(image_path)
+  File "/opt/conda/lib/python3.10/site-packages/werkzeug/datastructures/file_storage.py", line 125, in save
+    dst = open(dst, "wb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/zeonkunix/glucofit-api-predict/src/controllers/temp/tiramisu.jpg'
+127.0.0.1 - - [17/Jun/2024 01:41:27] "POST /predictIR HTTP/1.1" 500 -
+Log: ImageRecognitionService initialized
+Downloading CSV from GCS: glucofit-test-bucket/GulaMakanan.csv
+Downloaded GulaMakanan.csv from bucket glucofit-test-bucket to ./csv/GulaMakanan.csv
+CSV file exists: ./csv/GulaMakanan.csv
+CSV loaded successfully
+Log: ImageRecognitionService initialized
+CSV file exists: ./csv/GulaMakanan.csv
+CSV loaded successfully
+1/1 [==============================] - ETA: 0s1/1 [==============================] - 1s 978ms/step
+127.0.0.1 - - [17/Jun/2024 01:42:07] "POST /predictIR HTTP/1.1" 200 -
+Log: ImageRecognitionService initialized
+CSV file exists: ./csv/GulaMakanan.csv
+CSV loaded successfully
+1/1 [==============================] - ETA: 0s1/1 [==============================] - 0s 62ms/step
+127.0.0.1 - - [17/Jun/2024 01:43:25] "POST /predictIR HTTP/1.1" 200 -
+Log: ImageRecognitionService initialized
+CSV file exists: ./csv/GulaMakanan.csv
+CSV loaded successfully
+1/1 [==============================] - ETA: 0s1/1 [==============================] - 0s 62ms/step
+127.0.0.1 - - [17/Jun/2024 01:43:35] "POST /predictIR HTTP/1.1" 200 -
+2024-06-17 01:48:21.592622: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-06-17 01:48:21.594985: I external/local_tsl/tsl/cuda/cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+2024-06-17 01:48:21.631073: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2024-06-17 01:48:21.631113: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2024-06-17 01:48:21.632086: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-06-17 01:48:21.637703: I external/local_tsl/tsl/cuda/cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+2024-06-17 01:48:21.637907: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-06-17 01:48:22.485975: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+loading model 2
+Model file exists: ./model/model2.h5
+Model loaded successfully
+success
+ * Serving Flask app 'src/app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+Log: ImageRecognitionService initialized
+CSV file exists: ./csv/GulaMakanan.csv
+CSV loaded successfully
+1/1 [==============================] - ETA: 0s1/1 [==============================] - 1s 831ms/step
+127.0.0.1 - - [17/Jun/2024 01:49:02] "POST /predictIR HTTP/1.1" 200 -
+Log: ImageRecognitionService initialized
+CSV file exists: ./csv/GulaMakanan.csv
+CSV loaded successfully
+1/1 [==============================] - ETA: 0s1/1 [==============================] - 0s 62ms/step
+127.0.0.1 - - [17/Jun/2024 01:49:08] "POST /predictIR HTTP/1.1" 200 -
+Log: ImageRecognitionService initialized
+CSV file exists: ./csv/GulaMakanan.csv
+CSV loaded successfully
+1/1 [==============================] - ETA: 0s1/1 [==============================] - 0s 61ms/step
+127.0.0.1 - - [17/Jun/2024 01:49:15] "POST /predictIR HTTP/1.1" 200 -
+Log: ImageRecognitionService initialized
+CSV file exists: ./csv/GulaMakanan.csv
+CSV loaded successfully
+1/1 [==============================] - ETA: 0s1/1 [==============================] - 0s 60ms/step
+127.0.0.1 - - [17/Jun/2024 01:49:23] "POST /predictIR HTTP/1.1" 200 -
+2024-06-17 01:51:01.228564: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-06-17 01:51:01.230944: I external/local_tsl/tsl/cuda/cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+2024-06-17 01:51:01.267382: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2024-06-17 01:51:01.267432: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2024-06-17 01:51:01.268404: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-06-17 01:51:01.274014: I external/local_tsl/tsl/cuda/cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+2024-06-17 01:51:01.274219: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-06-17 01:51:02.120168: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+loading model 2
+Downloading model from GCS: glucofit-test-bucket/Copy of ResNet50_Model_food_classifier_model.h5
+Downloaded Copy of ResNet50_Model_food_classifier_model.h5 from bucket glucofit-test-bucket to ./model/model2.h5
+Model file exists: ./model/model2.h5
+Model loaded successfully
+success
+ * Serving Flask app 'src/app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+Log: ImageRecognitionService initialized
+CSV file exists: ./csv/GulaMakanan.csv
+CSV loaded successfully
+1/1 [==============================] - ETA: 0s1/1 [==============================] - 1s 807ms/step
+127.0.0.1 - - [17/Jun/2024 01:51:13] "POST /predictIR HTTP/1.1" 200 -
+Log: ImageRecognitionService initialized
+CSV file exists: ./csv/GulaMakanan.csv
+CSV loaded successfully
+1/1 [==============================] - ETA: 0s1/1 [==============================] - 0s 61ms/step
+127.0.0.1 - - [17/Jun/2024 01:52:13] "POST /predictIR HTTP/1.1" 200 -
+Log: ImageRecognitionService initialized
+CSV file exists: ./csv/GulaMakanan.csv
+CSV loaded successfully
+1/1 [==============================] - ETA: 0s1/1 [==============================] - 0s 62ms/step
+127.0.0.1 - - [17/Jun/2024 01:52:21] "POST /predictIR HTTP/1.1" 200 -
+2024-06-17 01:54:33.170985: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-06-17 01:54:33.173351: I external/local_tsl/tsl/cuda/cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+2024-06-17 01:54:33.209457: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2024-06-17 01:54:33.209498: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2024-06-17 01:54:33.210470: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-06-17 01:54:33.216057: I external/local_tsl/tsl/cuda/cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+2024-06-17 01:54:33.216262: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-06-17 01:54:34.040197: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+loading model 2
+Model file exists: ./model/model2.h5
+Model loaded successfully
+success
+ * Serving Flask app 'src/app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+Log: ImageRecognitionService initialized
+CSV file exists: ./csv/GulaMakanan.csv
+CSV loaded successfully
+1/1 [==============================] - ETA: 0s1/1 [==============================] - 1s 821ms/step
+127.0.0.1 - - [17/Jun/2024 01:54:42] "POST /predictIR HTTP/1.1" 200 -
