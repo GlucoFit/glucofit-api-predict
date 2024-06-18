@@ -4,7 +4,7 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from flask import Flask
-# from controllers.mrs_controller import prediction_bp
+from controllers.mrs_controller import mrs_controller
 from controllers.ir_controller import ir_controller
 
 os.makedirs('./model', exist_ok=True)
@@ -19,7 +19,7 @@ os.makedirs('./csv', exist_ok=True)
 
 app = Flask(__name__)
 
-# app.register_blueprint(prediction_bp)
+app.register_blueprint(mrs_controller)
 app.register_blueprint(ir_controller)
 
 # if __name__ == '__main__':
