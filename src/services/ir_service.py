@@ -68,8 +68,10 @@ class ImageRecognitionService:
         return img_array
 
     def predict_image(self, image_path):
+        print(image_path)
         img_array = self.preprocess_image(image_path)
         predictions = self.model.predict(img_array)
+        print(predictions)
         predicted_class = np.argmax(predictions, axis=1)[0]
         predicted_id = predicted_class + 1
         return predicted_id
