@@ -4,6 +4,7 @@ import numpy as np
 import os
 import logging
 from sklearn.compose import ColumnTransformer
+import tensorflow as tf
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import OneHotEncoder, StandardScaler, LabelEncoder
 
@@ -14,8 +15,16 @@ logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
 
 # Local paths for model files
-local_model_path = './model/Recommended_Sugar_Intake_Model.h5'
+local_model_path = './model/recomendation_sugar_intake-2.h5'
 os.makedirs(os.path.dirname(local_model_path), exist_ok=True)
+
+def create_label_encoders(data, categorical_features):
+    label_encoders = {}
+    for feature in categorical_features:
+        le = LabelEncoder()
+        le.fit(data[feature])
+        label_encoders[feature] = le
+    return label_encoders
 
 # Load the model from .h5 file
 def load_model_from_h5(model_path):
@@ -65,11 +74,13 @@ def predict_sugar_intake(model, age, height, weight, diabetes_history, diabetes_
             'diabetes_heritage': [diabetes_heritage]
         })
 
-        label_encoders = {}
-        # Perform prediction using the .h5 model
+        local_csv_path = './csv/Dummy_data_no_user.csv'
+        mock_data = pd.read_csv(local_csv_path)
+
+        label_encoders = create_label_encoders(mock_data, categorical_features)
+
         for feature in categorical_features:
             input_data[feature] = label_encoders[feature].transform(input_data[feature])
-
         # Apply the preprocessor to the input data
         input_data_processed = preprocessor.transform(input_data)
 
@@ -87,9 +98,10 @@ def predict_sugar_intake(model, age, height, weight, diabetes_history, diabetes_
 # Route for predicting recommended sugar intake
 @app.route('/predictRSI', methods=['POST'])
 def predict_recommended_sugar_intake():
-    try:
+    # try:
+        print("halo")
         data = request.json
-        
+        print(data)
         # Validate input data
         required_fields = ['age', 'height', 'weight', 'diabetes_history', 'diabetes_heritage']
         for field in required_fields:
@@ -108,23 +120,25 @@ def predict_recommended_sugar_intake():
         diabetes_heritage = data['diabetes_heritage']
         
         # Load model from .h5 file
-        model_h5 = load_model_from_h5(local_model_path)
-        
+        print("string string before loading model")
+        model_h5 = tf.keras.models.load_model('model/Recommended_Sugar_Intake_Model_TF.h5')
+        print("string string after loading model")
+
         # Perform prediction
         predicted_sugar_intake = predict_sugar_intake(model_h5, age, height, weight, diabetes_history, diabetes_heritage)
         
         # Return prediction as JSON response
         return jsonify({'predicted_sugar_intake': predicted_sugar_intake.tolist()}), 200
     
-    except KeyError as e:
-        logging.error(f"Missing key in input data: {e}")
-        return jsonify({'error': f"Missing key: {str(e)}"}), 400
-    except ValueError as e:
-        logging.error(f"Invalid data type in input data: {e}")
-        return jsonify({'error': str(e)}), 400
-    except Exception as e:
-        logging.error(f"Error in /predictRSI: {e}")
-        return jsonify({'error': str(e)}), 500
+    # except KeyError as e:
+    #     logging.error(f"Missing key in input data: {e}")
+    #     return jsonify({'error': f"Missing key: {str(e)}"}), 400
+    # except ValueError as e:
+    #     logging.error(f"Invalid data type in input data: {e}")
+    #     return jsonify({'error': str(e)}), 400
+    # except Exception as e:
+    #     logging.error(f"Error in /predictRSI: {e}")
+    #     return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080)
