@@ -13,3 +13,6 @@ src/services/__pycache__
 src/repositories/__pycache__
 src/utils/__pycache__
 .venv/
+src/controllers/ir_controller.py
+src/models/model2.py
+src/services/ir_service.py

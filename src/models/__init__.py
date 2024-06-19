@@ -10,9 +10,9 @@ print('loading model 1')
 model1 = load_model1() # Deep Learning : CBF MRS
 model1.summary()
 
-print('loading model 2')
-model2 = load_model2() # ResNet 50 : IR
-model2.summary()
+# print('loading model 2')
+# model2 = load_model2() # ResNet 50 : IR
+# model2.summary()
 
 print('success')
 # model3 = load_model3()
