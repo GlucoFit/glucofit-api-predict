@@ -1,5 +1,6 @@
 import sys
 import os
+from waitress import serve
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
@@ -30,4 +31,4 @@ app.register_blueprint(mrs_controller)
 #     # Development
 #     app.run(debug=True, host='127.0.0.1', port=5000)
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    serve(app, host='0.0.0.0', port=8080)

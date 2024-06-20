@@ -1,6 +1,6 @@
 import tensorflow as tf
 from models.model1 import load_model1
-from models.model2 import load_model2
+# from models.model2 import load_model2
 # from models.model3 import load_model3
 
 # Set TensorFlow logging verbosity
