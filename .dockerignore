@@ -2,5 +2,10 @@ scripts/
 .git/
 .gitignore
 .env
-model/
-csv/
+__pycache__/
+pickle/
+scripts/
+.venv/
+src/
+app.py
+apps.py
