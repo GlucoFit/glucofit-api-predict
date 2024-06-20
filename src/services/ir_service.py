@@ -2,14 +2,38 @@ import os
 import pandas as pd
 import numpy as np
 import tensorflow as tf
+import matplotlib.pyplot as plt
 from services.gcs_service import download_file_from_gcs
 from config import Config
 
 class ImageRecognitionService:
-    def __init__(self, model, sugar_csv_secret_name):
+    def __init__(self, model_path, sugar_csv_secret_name):
         print('Log: ImageRecognitionService initialized')
-        self.model = model
+        self.model = tf.keras.models.load_model(model_path)
         self.food_names, self.sugar_content = self.load_food_data(sugar_csv_secret_name)
+        
+        # Dummy data to simulate the class indices mapping
+        # Replace this with the actual class_indices from your training data
+        self.class_names = [
+            "apple_pie", "baby_back_ribs", "baklava",
+            "beignets", "bibimbap", "breakfast_burrito", "caesar_salad",
+            "cannoli", "caprese_salad", "cheesecake", "cheese_plate",
+            "chicken_curry",  "chicken_wings", "chocolate_cake", "chocolate_mousse",
+            "churros", "club_sandwich",  "creme_brulee",
+            "cup_cakes",  "donuts", "dumplings",
+            "falafel", "filet_mignon", "fish_and_chips", "french_fries",
+            "french_toast", "fried_calamari", "fried_rice", "frozen_yogurt", "garlic_bread",
+            "greek_salad", "grilled_cheese_sandwich", "grilled_salmon", "gyoza", "hamburger",
+            "hot_dog",  "ice_cream", "lasagna",
+            "macaroni_and_cheese", "macarons", "miso_soup",
+            "nachos", "omelette", "onion_rings", "pancakes",
+            "pizza", "prime_rib",
+            "ramen", "red_velvet_cake", "samosa", "sashimi",
+            "spaghetti_bolognese", "spaghetti_carbonara",
+            "steak", "strawberry_shortcake", "sushi", "tacos", "takoyaki", "tiramisu",
+            "waffles"
+        ]  # Example
+        self.idx_to_class = {i: class_name for i, class_name in enumerate(self.class_names)}
 
     def load_food_data(self, sugar_csv_secret_name):
         sugar_csv_path_secret = Config.get_secret(sugar_csv_secret_name)
@@ -61,23 +85,34 @@ class ImageRecognitionService:
         return food_names, sugar_content
 
     def preprocess_image(self, image_path):
-        img = tf.keras.utils.load_img(image_path, target_size=(224, 224))
-        img_array = tf.keras.utils.img_to_array(img)
+        img = tf.keras.preprocessing.load_img(image_path, target_size=(224, 224))
+        img_array = tf.keras.preprocessing.img_to_array(img)
         img_array = np.expand_dims(img_array, axis=0)
-        img_array = tf.keras.applications.resnet50.preprocess_input(img_array)
+        img_array = img_array * (1.0 / 255.0)  # Scale the image array
         return img_array
 
     def predict_image(self, image_path):
-        print(image_path)
         img_array = self.preprocess_image(image_path)
         predictions = self.model.predict(img_array)
-        print(predictions)
-        predicted_class = np.argmax(predictions, axis=1)[0]
-        predicted_id = predicted_class + 1
-        return predicted_id
+        predicted_class = np.argmax(predictions)
+        predicted_id = self.idx_to_class[predicted_class]
+        confidence = np.max(predictions)
+        return predicted_id, confidence
 
     def get_food_name_by_id(self, predicted_id):
         return self.food_names[predicted_id]
 
     def get_sugar_content_by_id(self, predicted_id):
         return self.sugar_content[predicted_id]
+
+    def display_prediction(self, image_path):
+        predicted_id, confidence = self.predict_image(image_path)
+        predicted_class = self.idx_to_class[predicted_id]
+
+        print(f"Predicted class: {predicted_class}, Confidence: {confidence:.2f}")
+
+        # Display the image
+        plt.imshow(tf.keras.preprocessing.load_img(image_path))
+        plt.title(f"Predicted: {predicted_class} ({confidence:.2f})")
+        plt.axis('off')
+        plt.show()
