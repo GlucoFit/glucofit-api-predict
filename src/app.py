@@ -3,6 +3,7 @@ import os
 from waitress import serve
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "./serviceKey.json"
 
 from flask import Flask
 # from controllers.mrs_controller import mrs_controller
