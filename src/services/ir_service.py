@@ -9,21 +9,19 @@ class ImageRecognitionService:
     def __init__(self, model, sugar_csv_secret_name):
         print('Log: ImageRecognitionService initialized')
         self.model = model
-        self.food_names, self.sugar_content = self.load_food_data(sugar_csv_secret_name)
+        self.sugar_df = self.load_food_data(sugar_csv_secret_name)
         
-        # Dummy data to simulate the class indices mapping
-        # Replace this with the actual class_indices from your training data
         self.class_names = [
             "apple_pie", "baby_back_ribs", "baklava",
             "beignets", "bibimbap", "breakfast_burrito", "caesar_salad",
             "cannoli", "caprese_salad", "cheesecake", "cheese_plate",
-            "chicken_curry",  "chicken_wings", "chocolate_cake", "chocolate_mousse",
-            "churros", "club_sandwich",  "creme_brulee",
-            "cup_cakes",  "donuts", "dumplings",
+            "chicken_curry", "chicken_wings", "chocolate_cake", "chocolate_mousse",
+            "churros", "club_sandwich", "creme_brulee",
+            "cup_cakes", "donuts", "dumplings",
             "falafel", "filet_mignon", "fish_and_chips", "french_fries",
             "french_toast", "fried_calamari", "fried_rice", "frozen_yogurt", "garlic_bread",
             "greek_salad", "grilled_cheese_sandwich", "grilled_salmon", "gyoza", "hamburger",
-            "hot_dog",  "ice_cream", "lasagna",
+            "hot_dog", "ice_cream", "lasagna",
             "macaroni_and_cheese", "macarons", "miso_soup",
             "nachos", "omelette", "onion_rings", "pancakes",
             "pizza", "prime_rib",
@@ -31,7 +29,7 @@ class ImageRecognitionService:
             "spaghetti_bolognese", "spaghetti_carbonara",
             "steak", "strawberry_shortcake", "sushi", "tacos", "takoyaki", "tiramisu",
             "waffles"
-        ]  # Example
+        ]
         self.idx_to_class = {i: class_name for i, class_name in enumerate(self.class_names)}
 
     def load_food_data(self, sugar_csv_secret_name):
@@ -48,27 +46,15 @@ class ImageRecognitionService:
         if not os.path.exists(local_csv_path):
             download_csv()
 
-        # Check if the file exists after download or before loading
-        if os.path.exists(local_csv_path):
-            print(f"CSV file exists: {local_csv_path}")
-        else:
-            print(f"CSV file does not exist: {local_csv_path}")
-            return None, None
-
         # Try loading the CSV
         try:
-            sugar_df = pd.read_csv(local_csv_path, sep=',', header=None, names=['food,sugar(g)'])
-            sugar_df['food,sugar(g)'] = sugar_df['food,sugar(g)'].str.strip()
-            sugar_df[['food', 'sugar(g)']] = sugar_df['food,sugar(g)'].str.split(',', expand=True)
-            sugar_df.drop(columns=['food,sugar(g)'], inplace=True)
+            sugar_df = pd.read_csv(local_csv_path, sep=',', header=0, names=['food','sugar(g)'])
             print("CSV loaded successfully")
+            print(sugar_df.head())
+            return sugar_df
         except (pd.errors.EmptyDataError, pd.errors.ParserError) as e:
             print(f"Error loading CSV: {e}")
-
-        food_names = sugar_df['food'].tolist()
-        sugar_content = sugar_df['sugar(g)'].tolist()
-
-        return food_names, sugar_content
+            return None
 
     def preprocess_image(self, image_path):
         img = tf.keras.utils.load_img(image_path, target_size=(224, 224))
@@ -93,22 +79,23 @@ class ImageRecognitionService:
 
     def get_food_name_by_id(self, predicted_id):
         print(f"Log: Getting food name for ID: {predicted_id}")
-        return self.food_names[predicted_id + 1]
+        return self.class_names[predicted_id]
 
     def get_sugar_content_by_id(self, predicted_id):
-        print(f"Log: Getting sugar content for ID: {predicted_id}")
-        return self.sugar_content[predicted_id + 1]
+        if self.sugar_df is None:
+            print("Log: Sugar data is not available")
+            return "No data available"
 
-    # def display_prediction(self, image_path):
-    #     print(f"Log: Displaying prediction for image: {image_path}")
-    #     predicted_class, confidence = self.predict_image(image_path)
-    #     predicted_food_name = self.idx_to_class[predicted_class]
-
-    #     print(f"Predicted class: {predicted_food_name}, Confidence: {confidence:.2f}")
-
-    #     # Display the image
-    #     plt.imshow(tf.keras.utils.load_img(image_path))
-    #     plt.title(f"Predicted: {predicted_food_name} ({confidence:.2f})")
-    #     plt.axis('off')
-    #     plt.show()
-
+        try:
+            print(f"Log: Getting sugar content for ID: {predicted_id}")
+            food_name = self.class_names[predicted_id]
+            # print(type(food_name))
+            # print(food_name)
+            normalized_food_name = food_name.replace('_', ' ').lower()
+            sugar_content = self.sugar_df[self.sugar_df['food'].str.lower().str.replace('_', ' ') == normalized_food_name]['sugar(g)'].values
+            if sugar_content.size > 0:
+                return sugar_content[0]
+            else:
+                return "No data available"
+        except IndexError:
+            return "No data available"
