@@ -1,4 +1,4 @@
-# Glucofit API
+# Glucofit API Predict
 
 GlucoFit is a mobile app designed to combat diabetes in Indonesia by empowering users with tools for informed dietary choices. Using advanced image recognition and personalized recommendations, GlucoFit helps users track their daily sugar intake and offers tailored recipes. This innovative solution promotes healthier eating habits, catering to Indonesian teenagers and adults aiming for a healthier lifestyle.
 
