@@ -23,16 +23,15 @@ def predict_ir():
     image_path = os.path.join(TEMP_DIR, image_file.filename)
     image_file.save(image_path)
  
-    # Perform prediction using the ImageRecognitionService
-    predicted_id = image_recognition_service.predict_image(image_path)
+    predicted_id, confidence = image_recognition_service.predict_image(image_path)
     food_name = image_recognition_service.get_food_name_by_id(predicted_id)
     sugar_content = image_recognition_service.get_sugar_content_by_id(predicted_id)
-
-    # Return prediction result as JSON
-    result = {
+    
+    confidence = float(confidence)
+    
+    return jsonify({
         'food_name': food_name,
-        'sugar_content': sugar_content  # You can adjust this based on your service method
-    }
-
-    return jsonify(result)
+        'sugar_content': sugar_content,
+        'confidence': confidence
+    })
 
