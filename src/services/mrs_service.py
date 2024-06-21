@@ -1,5 +1,5 @@
 import os
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 import pandas as pd
 import numpy as np
 from services.gcs_service import download_file_from_gcs
@@ -11,6 +11,8 @@ class MRSService:
         self.model = model
         self.ohe_menu = OneHotEncoder(handle_unknown='ignore')
         self.ohe_user = OneHotEncoder(handle_unknown='ignore')
+        self.menu_scaler = StandardScaler()
+        self.user_scaler = StandardScaler()
         self.menu_df = None
         self.user_df = None
 
@@ -31,6 +33,12 @@ class MRSService:
             user_cat_features = self.user_df[['diet_labels', 'preferred_food']]
             self.ohe_menu.fit(menu_cat_features)
             self.ohe_user.fit(user_cat_features)
+
+            menu_cat_encoded = self.ohe_menu.transform(menu_cat_features).toarray()
+            user_cat_encoded = self.ohe_user.transform(user_cat_features).toarray()
+
+            self.menu_scaler.fit(menu_cat_encoded)
+            self.user_scaler.fit(user_cat_encoded)
         else:
             raise ValueError("Dataframes not loaded. Check the CSV paths or download process.")
 
@@ -75,10 +83,12 @@ class MRSService:
         user_cat_features = pd.DataFrame([user_input])
         user_features_encoded = self.ohe_user.transform(user_cat_features).toarray()
         user_features_encoded = np.hstack([user_features_encoded]).astype(np.float32)
-        user_features_repeated = np.tile(user_features_encoded, (len(self.menu_df), 1))
+        user_features_scaled = self.user_scaler.transform(user_features_encoded)
+        user_features_tiled = np.tile(user_features_scaled, (len(self.menu_df), 1))
         menu_features_encoded = self.ohe_menu.transform(self.menu_df[['diet_labels', 'recipe_name']]).toarray()
+        menu_features_scaled = self.menu_scaler.transform(menu_features_encoded)
 
-        predictions = self.model.predict([menu_features_encoded, user_features_repeated])
+        predictions = self.model.predict([menu_features_scaled, user_features_tiled])
         self.menu_df['compatibility_score'] = predictions
         print(predictions)
         top_n = 10

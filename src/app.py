@@ -1,11 +1,12 @@
 import sys
 import os
+from waitress import serve
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from flask import Flask
 from controllers.mrs_controller import mrs_controller
-from controllers.ir_controller import ir_controller
+# from controllers.ir_controller import ir_controller
 
 os.makedirs('./model', exist_ok=True)
 os.makedirs('./csv', exist_ok=True)
@@ -20,7 +21,7 @@ os.makedirs('./csv', exist_ok=True)
 app = Flask(__name__)
 
 app.register_blueprint(mrs_controller)
-app.register_blueprint(ir_controller)
+# app.register_blueprint(ir_controller)
 
 # if __name__ == '__main__':
 # Production
@@ -29,3 +30,5 @@ app.register_blueprint(ir_controller)
 #     app.run(debug=True, host='0.0.0.0', port=8080)
 #     # Development
 #     app.run(debug=True, host='127.0.0.1', port=5000)
+if __name__ == '__main__':
+    serve(app, host='0.0.0.0', port=8080)

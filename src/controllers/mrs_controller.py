@@ -1,8 +1,6 @@
 from flask import Blueprint, request, jsonify
 from services.mrs_service import MRSService
 from models import model1  # Assuming model1 is imported correctly
-from repositories.csv_repository import load_csv  # Assuming this is not needed anymore
-
 mrs_controller = Blueprint('mrs_controller', __name__)
 
 @mrs_controller.route('/predictMRS', methods=['POST'])
