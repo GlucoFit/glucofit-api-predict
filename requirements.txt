@@ -7,3 +7,4 @@ google-cloud-secret-manager
 Pillow
 waitress
 tensorflow
+python-dotenv

@@ -4,7 +4,7 @@ FROM python:3.10-slim
 # Set environment variables to prevent Python from writing .pyc files and to enable unbuffered logging
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV GOOGLE_CLOUD_PROJECT=capstone-playground-423804
+# ENV GOOGLE_CLOUD_PROJECT=YOUR_GOOGLE_CLOUD_PROJECT_ID
 
 # Set working directory
 WORKDIR /app

@@ -25,11 +25,11 @@ app = Flask(__name__)
 app.register_blueprint(ir_controller)
 
 # if __name__ == '__main__':
-# Production
-#	from waitress import serve
-#	serve(app, host="0.0.0.0", port=5000)
-#     app.run(debug=True, host='0.0.0.0', port=8080)
-#     # Development
-#     app.run(debug=True, host='127.0.0.1', port=5000)
+    # Production
+    # from waitress import serve
+    # serve(app, host="0.0.0.0", port=5000)
+    # app.run(debug=True, host='0.0.0.0', port=8080)
+    # Development
+    # app.run(debug=True, host='127.0.0.1', port=5000)
 if __name__ == '__main__':
     serve(app, host='0.0.0.0', port=8080)
